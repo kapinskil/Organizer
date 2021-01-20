@@ -7,13 +7,23 @@ using System.Text;
 
 namespace Organizer.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<PomodoroProperty> PomodoroProperties { get; set; }
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
+
+        public DbSet<PomodoroProperty> PomodoroProperties { get; set; }
+        public DbSet<Task> Tasks { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
+
+
     }
 }

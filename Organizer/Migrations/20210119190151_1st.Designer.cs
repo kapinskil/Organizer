@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Organizer.Data;
 
-namespace Organizer.Data.Migrations
+namespace Organizer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210112212931_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210119190151_1st")]
+    partial class _1st
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -246,14 +246,35 @@ namespace Organizer.Data.Migrations
                     b.Property<int>("TimeToLongBreak")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
 
                     b.ToTable("PomodoroProperties");
+                });
+
+            modelBuilder.Entity("Organizer.Models.Task", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tasks");
                 });
 
             modelBuilder.Entity("Organizer.Models.ApplicationUser", b =>
