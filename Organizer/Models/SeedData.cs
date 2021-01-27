@@ -15,29 +15,17 @@ namespace Organizer.Models
             using (var context = new ApplicationDbContext(serviceProvider.GetRequiredService<
                     DbContextOptions<ApplicationDbContext>>()))
             {
-                if(context.Tasks.Any())
+               
+                if(context.TraningValues.Any())
                 {
                     return;
                 }
 
-                context.Tasks.AddRange(
-                    new Task
-                    {
-                        Title = "Coding C#",
-                        Date = DateTime.Parse("2021-01-14"),
-                        Description = "it is important",
-                        Status = TaskStatus.todo,
-                    },
-
-                    new Task
-                    {
-                        Title = "Read the book",
-                        Date = DateTime.Parse("2021-01-15"),
-                        Description = "",
-                        Status = TaskStatus.done,
-                    }
-               );
-
+                context.TraningValues.AddRange(
+                    new TraningValues { Name ="test1",Value=1},
+                    new TraningValues { Name = "test2", Value =2}
+                    
+                    );
                 context.SaveChanges();
             }
         }

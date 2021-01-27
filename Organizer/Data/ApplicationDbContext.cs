@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Organizer.Models;
 using System;
@@ -20,8 +21,12 @@ namespace Organizer.Data
         }
 
         public DbSet<PomodoroProperty> PomodoroProperties { get; set; }
-        public DbSet<Task> Tasks { get; set; }
+        public DbSet<PomodoroTask> PomodoroTasks { get; set; }
+        public DbSet<PomodoroCategory> PomodoroCategories { get; set; }
+        public DbSet<PomodoroTaskStatus> PomodoroTaskStatuses { get; set; }
+        public DbSet<TraningValues> TraningValues { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        
 
 
 

@@ -26,7 +26,6 @@ namespace Organizer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -48,19 +47,17 @@ namespace Organizer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tasks",
+                name: "TraningValues",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Value = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tasks", x => x.Id);
+                    table.PrimaryKey("PK_TraningValues", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -170,6 +167,26 @@ namespace Organizer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PomodoroCategories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PomodoroCategories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PomodoroCategories_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PomodoroProperties",
                 columns: table => new
                 {
@@ -189,6 +206,58 @@ namespace Organizer.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PomodoroTasks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StatusId = table.Column<int>(type: "int", nullable: false),
+                    DataStart = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateDone = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    PomodoroCategoryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PomodoroTasks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PomodoroTasks_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PomodoroTasks_PomodoroCategories_PomodoroCategoryId",
+                        column: x => x.PomodoroCategoryId,
+                        principalTable: "PomodoroCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PomodoroTaskStatuses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PomodoroTaskId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PomodoroTaskStatuses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PomodoroTaskStatuses_PomodoroTasks_PomodoroTaskId",
+                        column: x => x.PomodoroTaskId,
+                        principalTable: "PomodoroTasks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -231,9 +300,29 @@ namespace Organizer.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PomodoroCategories_ApplicationUserId",
+                table: "PomodoroCategories",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PomodoroProperties_ApplicationUserId",
                 table: "PomodoroProperties",
                 column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PomodoroTasks_ApplicationUserId",
+                table: "PomodoroTasks",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PomodoroTasks_PomodoroCategoryId",
+                table: "PomodoroTasks",
+                column: "PomodoroCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PomodoroTaskStatuses_PomodoroTaskId",
+                table: "PomodoroTaskStatuses",
+                column: "PomodoroTaskId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -257,10 +346,19 @@ namespace Organizer.Migrations
                 name: "PomodoroProperties");
 
             migrationBuilder.DropTable(
-                name: "Tasks");
+                name: "PomodoroTaskStatuses");
+
+            migrationBuilder.DropTable(
+                name: "TraningValues");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "PomodoroTasks");
+
+            migrationBuilder.DropTable(
+                name: "PomodoroCategories");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

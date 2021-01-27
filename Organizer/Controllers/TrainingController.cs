@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Organizer.Models.ViewModels;
 
 namespace Organizer.Controllers
 {   
@@ -14,42 +15,34 @@ namespace Organizer.Controllers
     {
         private ApplicationDbContext _applicationDbContext;
 
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+           TraningViewModel model = new TraningViewModel();
+
+            model.TraningValues = await _applicationDbContext.TraningValues.ToListAsync();
+
+           return View(model);
+        }
+
+
+
+
         public TrainingController(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
         }
 
         [HttpGet]
-        public string Task()
+        public async Task<String> Users()
         {
-            var query = _applicationDbContext.Tasks.ToList();
-            string answer ="";
-
-            foreach(var item in query)
-            {
-                answer = answer + item.Id + " " + item.Title + " " + item.Status + "\n";
-            }
-
-            if(answer == string.Empty)
-            {
-                answer = "bad request";
-            }
-
-            return answer;
-        }
-
-
-        [HttpGet]
-        public String Users()
-        {
-
-            var users = _applicationDbContext.ApplicationUsers.Include(p => p.PomodoroProperties).ToList();
+            var users = await _applicationDbContext.ApplicationUsers.Include(p => p.PomodoroProperties).ToListAsync();
             string answer = "";
 
 
             foreach(var user in users)
             {
-                answer = answer +user.Email +   user.PomodoroProperties.FirstOrDefault().LongBreak + "\n";
+                answer = answer +user.Email + user.PomodoroProperties.FirstOrDefault().LongBreak + "\n";
             }
 
             return answer;
