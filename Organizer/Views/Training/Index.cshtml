@@ -8,11 +8,22 @@
 
 <h1>Training Page is here</h1>
 
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+    </tr>
 
-
-    @foreach(var item in Model.TraningValues)
+    @foreach (var item in Model.TraningValues)
     {
-        @Html.DisplayNameFor(i => item.Name);
+        <tr>
+            <td>@Html.DisplayFor(i => item.Name)</td>
+            <td>@Html.DisplayFor(i => item.Value)</td>
+        </tr>
     }
+
+</table>
+
+
 
 
