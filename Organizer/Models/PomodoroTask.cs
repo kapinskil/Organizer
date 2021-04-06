@@ -9,9 +9,7 @@ namespace Organizer.Models
     {
 
         public int Id { get; set; }
-        public int CategoryId { get; set; }
         public string Description { get; set; }
-        public int StatusId { get; set; }
         public DateTime DataStart { get; set; }
         public DateTime DateDone { get; set; }
         public DateTime DateAdded { get; set; }
@@ -22,6 +20,8 @@ namespace Organizer.Models
         public int PomodoroCategoryId { get; set; }
         public PomodoroCategory PomodoroCategory { get; set; }
 
-        public IEnumerable<PomodoroTaskStatus> pomodoroTaskStatuses{ get; set; }
+        public int PomodoroTaskStatusId { get; set; }
+        public PomodoroTaskStatus PomodoroTaskStatus {get;set;}
+
     }
 }

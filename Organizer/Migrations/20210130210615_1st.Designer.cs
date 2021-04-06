@@ -10,7 +10,7 @@ using Organizer.Data;
 namespace Organizer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210127224650_1st")]
+    [Migration("20210130210615_1st")]
     partial class _1st
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -277,9 +277,6 @@ namespace Organizer.Migrations
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("DataStart")
                         .HasColumnType("datetime2");
 
@@ -295,7 +292,10 @@ namespace Organizer.Migrations
                     b.Property<int>("PomodoroCategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int>("PomodoroStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PomodoroTaskStatusId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -303,6 +303,8 @@ namespace Organizer.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("PomodoroCategoryId");
+
+                    b.HasIndex("PomodoroTaskStatusId");
 
                     b.ToTable("PomodoroTasks");
                 });
@@ -317,12 +319,7 @@ namespace Organizer.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PomodoroTaskId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("PomodoroTaskId");
 
                     b.ToTable("PomodoroTaskStatuses");
                 });
@@ -426,20 +423,15 @@ namespace Organizer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Organizer.Models.PomodoroTaskStatus", "PomodoroTaskStatus")
+                        .WithMany("PomodoroTasks")
+                        .HasForeignKey("PomodoroTaskStatusId");
+
                     b.Navigation("ApplicationUser");
 
                     b.Navigation("PomodoroCategory");
-                });
 
-            modelBuilder.Entity("Organizer.Models.PomodoroTaskStatus", b =>
-                {
-                    b.HasOne("Organizer.Models.PomodoroTask", "pomodoroTask")
-                        .WithMany("pomodoroTaskStatuses")
-                        .HasForeignKey("PomodoroTaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("pomodoroTask");
+                    b.Navigation("PomodoroTaskStatus");
                 });
 
             modelBuilder.Entity("Organizer.Models.ApplicationUser", b =>
@@ -456,9 +448,9 @@ namespace Organizer.Migrations
                     b.Navigation("PomodoroTasks");
                 });
 
-            modelBuilder.Entity("Organizer.Models.PomodoroTask", b =>
+            modelBuilder.Entity("Organizer.Models.PomodoroTaskStatus", b =>
                 {
-                    b.Navigation("pomodoroTaskStatuses");
+                    b.Navigation("PomodoroTasks");
                 });
 #pragma warning restore 612, 618
         }

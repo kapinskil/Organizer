@@ -8,5 +8,6 @@ namespace Organizer.Models.ViewModels
     public class TraningViewModel
     {
         public List<TraningValues> TraningValues { get; set; }
+        public List<PomodoroTask> PomodoroTasks { get; set; }
     }
 }

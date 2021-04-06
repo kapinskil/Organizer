@@ -24,9 +24,13 @@ namespace Organizer.Models
                 context.TraningValues.AddRange(
                     new TraningValues { Name ="test1",Value=1},
                     new TraningValues { Name = "test2", Value =2}
-                    
                     );
                 context.SaveChanges();
+
+                context.PomodoroTasks.AddRange
+                    (
+                    
+                    );
             }
         }
     }

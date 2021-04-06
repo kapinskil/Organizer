@@ -10,8 +10,7 @@ namespace Organizer.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public int PomodoroTaskId { get; set; }
-        public PomodoroTask pomodoroTask { get; set; }
+        public IEnumerable<PomodoroTask> PomodoroTasks { get; set; }
 
     }
 }
