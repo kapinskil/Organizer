@@ -25,19 +25,5 @@ namespace Organizer.Controllers
             return View();
         }
 
-        public async Task<string> Tasks()
-        {
-            string value = "";
-
-            var tasks = await _pomodoroTaskRepository.GetPomodoroTasks();
-
-            foreach(var task in tasks)
-            {
-                value += " " + task.Description;
-            }
-
-            return value;
-        }
-
     }
 }

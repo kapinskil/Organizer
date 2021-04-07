@@ -7,45 +7,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Organizer.Models.ViewModels;
+using Organizer.DTO;
 
 namespace Organizer.Controllers
 {   
     [Authorize]
     public class TrainingController : Controller
     {
-        private ApplicationDbContext _applicationDbContext;
+        private IPomodoroTaskRepository _pomodoroTaskRepository;
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
            TraningViewModel model = new TraningViewModel();
 
-            model.TraningValues = await _applicationDbContext.TraningValues.ToListAsync();
+           // model.TraningValues = await _applicationDbContext.TraningValues.ToListAsync();
+            model.PomodoroTasks = await _pomodoroTaskRepository.GetPomodoroTasks();
 
            return View(model);
         }
-
-
-
-
-        public TrainingController(ApplicationDbContext applicationDbContext)
+        public TrainingController(IPomodoroTaskRepository pomodoroTaskRepository)
         {
-            _applicationDbContext = applicationDbContext;
+            _pomodoroTaskRepository = pomodoroTaskRepository;
         }
+
 
         [HttpGet]
-        public async Task<String> Users()
+        public  IActionResult Create()
         {
-            var users = await _applicationDbContext.ApplicationUsers.Include(p => p.PomodoroProperties).ToListAsync();
-            string answer = "";
+            var model = new PomodoroViewModel();
 
-
-            foreach(var user in users)
-            {
-                answer = answer +user.Email + user.PomodoroProperties.FirstOrDefault().LongBreak + "\n";
-            }
-
-            return answer;
+            return View(model);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(PomodoroTaskForCraeteDTO pomodoroTaskForCraeteDTO)
+        {
+            return View();
+        }
+
     }
 }

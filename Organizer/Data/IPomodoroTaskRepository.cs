@@ -8,6 +8,7 @@ namespace Organizer.Data
 {
     public interface IPomodoroTaskRepository
     {
-        Task<IEnumerable<PomodoroTask>> GetPomodoroTasks();
+        Task<List<PomodoroTask>> GetPomodoroTasks();
+        Task<PomodoroTask> GetPomodoroTask(int? id);
     }
 }

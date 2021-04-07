@@ -8,19 +8,30 @@
 
 <h1>Training Page is here</h1>
 
-<table>
+<p>
+    <a asp-action="Create">Create new task</a>
+</p>
+
+<table class="table">
+
     <tr>
         <th>Name</th>
         <th>Value</th>
     </tr>
 
-    @foreach (var item in Model.TraningValues)
+    @foreach (var item in Model.PomodoroTasks)
     {
         <tr>
-            <td>@Html.DisplayFor(i => item.Name)</td>
-            <td>@Html.DisplayFor(i => item.Value)</td>
+            <td>@Html.DisplayFor(i => item.ApplicationUser.UserName)</td>
+            <td>@Html.DisplayFor(i => item.Description)</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+            </td>
         </tr>
     }
+
 
 </table>
 
