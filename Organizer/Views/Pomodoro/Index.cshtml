@@ -1,7 +1,45 @@
-﻿@{
-    ViewData["Title"] = "Pomodoro";
+﻿@model Organizer.ViewModels.PomodoroViewModel
+
+@{
+
+    ViewData["Title"] = "Pomodor";
 }
 
-<p>Pomodoro home page</p>
 
-<li>@ViewData["Message"]</li>
+<h1>Pomodoro</h1>
+
+<p>
+    <a asp-action="Create">Create new task</a>
+</p>
+
+<table class="table">
+
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Status</th>
+    </tr>
+
+    @foreach (var item in Model.pomodoroTasks)
+    {
+        <tr>
+            <td>@Html.DisplayFor(i => item.ApplicationUser.UserName)</td>
+            <td>@Html.DisplayFor(i => item.Description)</td>
+            <td>@Html.DisplayFor(i => item.PomodoroTaskStatus.Name)</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+            </td>
+        </tr>
+    }
+
+
+</table>
+
+
+
+
+
+
+

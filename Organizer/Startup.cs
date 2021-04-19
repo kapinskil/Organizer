@@ -38,6 +38,7 @@ namespace Organizer
             services.AddControllersWithViews();
 
             services.AddScoped<IPomodoroTaskRepository, PomodoroTaskRepository>();
+            services.AddScoped<IPomodoroCategoryRepository, PomodoroCategoryRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

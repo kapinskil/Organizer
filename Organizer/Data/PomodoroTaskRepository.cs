@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Organizer.Data
 {
-    public class PomodoroTaskRepository : GenericRepository, IPomodoroTaskRepository
+    public class PomodoroTaskRepository :  GenericRepository, IPomodoroTaskRepository
     {
         private readonly ApplicationDbContext _context;
-        public PomodoroTaskRepository(ApplicationDbContext context): base(context)
+        public PomodoroTaskRepository(ApplicationDbContext context):base(context)
         {
             _context = context;
         }
@@ -23,6 +23,7 @@ namespace Organizer.Data
         {
             var pomodorTasks = await _context.PomodoroTasks
                                         .Include(u => u.ApplicationUser)
+                                        .Include(s => s.PomodoroTaskStatus)
                                         .ToListAsync();
 
             return pomodorTasks;
@@ -32,9 +33,14 @@ namespace Organizer.Data
         {
             var pomodoroTask = await _context.PomodoroTasks
                                         .Include(u => u.ApplicationUser)
+                                        .Include(p => p.PomodoroCategory)
+                                        .Include(p => p.PomodoroTaskStatus)
                                         .FirstOrDefaultAsync(t => t.Id == id);
 
             return pomodoroTask;
         }
+
+        
+
     }
 }

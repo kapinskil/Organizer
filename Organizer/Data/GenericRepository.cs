@@ -8,6 +8,7 @@ namespace Organizer.Data
     public class GenericRepository : IGenericRepository
     {
         private readonly ApplicationDbContext _context;
+
         public GenericRepository(ApplicationDbContext context)
         {
             _context = context;
@@ -25,7 +26,7 @@ namespace Organizer.Data
 
         public async Task<bool> SaveAll()
         {
-           return await  _context.SaveChangesAsync() > 0;
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

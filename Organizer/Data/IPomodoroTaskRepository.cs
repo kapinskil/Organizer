@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Organizer.Data
 {
-    public interface IPomodoroTaskRepository
+    public interface IPomodoroTaskRepository :IGenericRepository
     {
         Task<List<PomodoroTask>> GetPomodoroTasks();
         Task<PomodoroTask> GetPomodoroTask(int? id);

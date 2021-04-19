@@ -24,4 +24,10 @@ namespace Organizer.Models
         public PomodoroTaskStatus PomodoroTaskStatus {get;set;}
 
     }
+
+    public enum PomodoroTaskEnum
+    {
+        Done,
+        Todo
+    }
 }

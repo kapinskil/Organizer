@@ -6,8 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Organizer.Models.ViewModels;
-using Organizer.DTO;
+using Organizer.ViewModels;
 
 namespace Organizer.Controllers
 {   
@@ -41,10 +40,14 @@ namespace Organizer.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(PomodoroTaskForCraeteDTO pomodoroTaskForCraeteDTO)
+        public IActionResult Create(PomodoroTaskViewModel pomodoroTaskViewModel)
         {
-            return View();
+            var model = new PomodoroViewModel();
+
+            return View(model);
         }
+
+
 
     }
 }
