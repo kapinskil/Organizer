@@ -84,8 +84,39 @@ namespace Organizer.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(PomodoroTaskViewModel pomodoroTaskViewModel)
         {
-            return View();
+            if(ModelState.IsValid)
+            {
+                var user = await GetCurrentUser();
+
+                PomodoroTask modelToAdded = new PomodoroTask
+                {
+                    ApplicationUser = user,
+                    ApplicationUserId = user.Id,
+                    DateAdded = DateTime.Now,
+                    DataStart = pomodoroTaskViewModel.DataStart,
+                    DateDone = pomodoroTaskViewModel.DateDone,
+                    Description = pomodoroTaskViewModel.Description,
+                    PomodoroCategoryId = pomodoroTaskViewModel.PomodoroCategoryId,
+                    PomodoroTaskStatusId = 1
+                 };
+
+                _pomodoroTaskRepository.Add(modelToAdded);
+
+                if (await _pomodoroTaskRepository.SaveAll())
+                {
+                    //some maessahe when item added
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(pomodoroTaskViewModel);
         }
 
+        private async Task<ApplicationUser> GetCurrentUser()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            return user;
+        }
     }
 }

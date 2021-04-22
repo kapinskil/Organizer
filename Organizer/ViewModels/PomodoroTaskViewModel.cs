@@ -11,13 +11,16 @@ namespace Organizer.ViewModels
     public class PomodoroTaskViewModel
     {
         public int Id { get; set; }
+
+        [Required]
         public string Description { get; set; }
 
+        [Required]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString =  "{0:dd/MM/yyyy}")]
         public DateTime DataStart { get; set; }
 
-
+        [Required]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DateDone { get; set; }

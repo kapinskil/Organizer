@@ -19,8 +19,13 @@ namespace Organizer.Data
         public async Task<List<PomodoroCategory>> GetCategoriesByUser(string id)
         {
             var categories = await _context.PomodoroCategories.Where(c => c.ApplicationUserId == id).ToListAsync();
-
             return categories;
+        }
+
+        public async Task<PomodoroCategory> GetPomodoroCategory(int id)
+        {
+            var category = await _context.PomodoroCategories.FirstOrDefaultAsync(c => c.Id == id);
+            return category;
         }
     }
 }

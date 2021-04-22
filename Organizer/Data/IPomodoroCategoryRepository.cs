@@ -8,6 +8,7 @@ namespace Organizer.Data
 {
     public interface IPomodoroCategoryRepository: IGenericRepository
     {
+        Task<PomodoroCategory> GetPomodoroCategory(int id);
         Task<List<PomodoroCategory>> GetCategoriesByUser(string id);
     }
 }
