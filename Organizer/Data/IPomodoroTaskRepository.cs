@@ -8,7 +8,7 @@ namespace Organizer.Data
 {
     public interface IPomodoroTaskRepository :IGenericRepository
     {
-        Task<List<PomodoroTask>> GetPomodoroTasks();
+        Task<List<PomodoroTask>> GetPomodoroTasks(string? userId);
         Task<PomodoroTask> GetPomodoroTask(int? id);
     }
 }

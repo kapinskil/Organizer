@@ -34,8 +34,10 @@ namespace Organizer.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            var user = await GetCurrentUser();
+
             var model = new PomodoroViewModel();
-            model.pomodoroTasks = await _pomodoroTaskRepository.GetPomodoroTasks();
+            model.pomodoroTasks = await _pomodoroTaskRepository.GetPomodoroTasks(user.Id);
       
             return View(model);
         }
@@ -117,6 +119,24 @@ namespace Organizer.Controllers
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             return user;
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var taskToDelate = await _pomodoroTaskRepository.GetPomodoroTask(id);
+
+             _pomodoroTaskRepository.Delete(taskToDelate);
+            await _pomodoroTaskRepository.SaveAll();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            return View();
         }
     }
 }

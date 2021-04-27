@@ -21,9 +21,9 @@ namespace Organizer.Controllers
            TraningViewModel model = new TraningViewModel();
 
            // model.TraningValues = await _applicationDbContext.TraningValues.ToListAsync();
-            model.PomodoroTasks = await _pomodoroTaskRepository.GetPomodoroTasks();
+            //model.PomodoroTasks = await _pomodoroTaskRepository.GetPomodoroTasks();
 
-           return View(model);
+           return View();
         }
         public TrainingController(IPomodoroTaskRepository pomodoroTaskRepository)
         {

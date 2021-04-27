@@ -19,9 +19,10 @@ namespace Organizer.Data
         /// method return list of all pomodoro tasks
         /// </summary>
         /// <returns></returns>
-        public async Task<List<PomodoroTask>> GetPomodoroTasks()
+        public async Task<List<PomodoroTask>> GetPomodoroTasks(string? userId)
         {
             var pomodorTasks = await _context.PomodoroTasks
+                                        .Where(x => x.ApplicationUserId == userId)
                                         .Include(u => u.ApplicationUser)
                                         .Include(s => s.PomodoroTaskStatus)
                                         .ToListAsync();
