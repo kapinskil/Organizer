@@ -136,7 +136,9 @@ namespace Organizer.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
-            return View();
+            var viewModel = await _pomodoroTaskRepository.GetPomodoroTask(id);
+
+            return View(viewModel);
         }
     }
 }
